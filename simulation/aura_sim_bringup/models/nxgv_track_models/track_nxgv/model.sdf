@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="track_nxgv">
+    <static>true</static>
+    <link name="link">
+      <pose>0 0 0.01 0 0 3.14159</pose>
+      <collision name="collision">
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <!-- Gantikan nilai di bawah dengan hasil kiraan formula anda -->
+            <size>7.5 4</size>
+          </plane>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>100</mu>
+              <mu2>50</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name="visual">
+        <cast_shadows>false</cast_shadows>
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <!-- Mesti sama dengan size collision di atas -->
+            <size>7.5 4</size>
+          </plane>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://track_nxgv/materials/scripts</uri>
+            <uri>model://track_nxgv/materials/textures</uri>
+            <name>CustomTrack/Diffuse</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

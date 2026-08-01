@@ -1,0 +1,118 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="ackermann_track">
+
+    <!-- Pencahayaan Matahari -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <!-- Tanah Rata -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <!-- ================= DINDING SEMPADAN LUAR (10m x 8m) ================= -->
+    <model name="outer_wall_north">
+      <static>true</static>
+      <pose>0 4 0.25 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>10.0 0.1 0.5</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>10.0 0.1 0.5</size></box></geometry>
+          <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Grey</name></script></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="outer_wall_south">
+      <static>true</static>
+      <pose>0 -4 0.25 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>10.0 0.1 0.5</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>10.0 0.1 0.5</size></box></geometry>
+          <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Grey</name></script></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="outer_wall_east">
+      <static>true</static>
+      <pose>5 0 0.25 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.1 8.0 0.5</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.1 8.0 0.5</size></box></geometry>
+          <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Grey</name></script></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="outer_wall_west">
+      <static>true</static>
+      <pose>-5 0 0.25 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.1 8.0 0.5</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.1 8.0 0.5</size></box></geometry>
+          <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Grey</name></script></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ================= PULAU TENGAH (INNER ISLAND) ================= -->
+    <model name="inner_island">
+      <static>true</static>
+      <pose>0 0 0.25 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>6.0 4.0 0.5</size></box></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>6.0 4.0 0.5</size></box></geometry>
+          <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/DarkGrey</name></script></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ================= HALANGAN (OBSTACLE PILLARS) ================= -->
+    <model name="obstacle_pillar_1">
+      <static>true</static>
+      <pose>3.5 2.5 0.25 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><cylinder><radius>0.2</radius><length>0.5</length></cylinder></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><cylinder><radius>0.2</radius><length>0.5</length></cylinder></geometry>
+          <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Red</name></script></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="obstacle_pillar_2">
+      <static>true</static>
+      <pose>-3.5 -2.5 0.25 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><cylinder><radius>0.2</radius><length>0.5</length></cylinder></geometry>
+        </collision>
+        <visual name="visual">
+          <geometry><cylinder><radius>0.2</radius><length>0.5</length></cylinder></geometry>
+          <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Blue</name></script></material>
+        </visual>
+      </link>
+    </model>
+
+  </world>
+</sdf>
+

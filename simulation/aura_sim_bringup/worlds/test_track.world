@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<sdf version="1.5">
+  <world name="default">
+    <!-- Cahaya matahari -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    
+    <!-- Lantai kelabu Gazebo -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <!-- Model litar anda -->
+    <include>
+      <uri>model://custom_track_2d</uri>
+      <!-- Dinaikkan 0.01m untuk elak tenggelam (Z-fighting) -->
+      <pose>0 0 0.01 0 0 0</pose>
+    </include>
+    
+  </world>
+</sdf>

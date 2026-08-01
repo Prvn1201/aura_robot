@@ -1,0 +1,14 @@
+# Parameters for ackermann_controller_node.
+# Geometry values mirror ackermann_description/config/robot_dimensions.yaml
+# and urdf/robot.urdf.xacro (Step 7) - keep all three in sync if you change
+# the physical dimensions.
+
+ackermann_controller_node:
+  ros__parameters:
+    wheelbase: 0.220              # m
+    track_width: 0.150            # m
+    wheel_radius: 0.0325          # m
+    steering_limit: 0.35          # rad, ~20 degrees
+    max_wheel_velocity: 20.0      # rad/s, matches Step 8's ros2_control command limits
+    control_rate: 50.0            # Hz - publish rate, independent of /cmd_vel rate
+    cmd_vel_timeout: 0.5          # s - safety watchdog: stop if /cmd_vel goes silent

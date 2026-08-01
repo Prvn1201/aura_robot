@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!--
+    ros2_control hardware description (Step 8).
+
+    Declares which joints are controllable, through which command/state
+    interfaces, and which hardware plugin backs them in simulation.
+
+    The gazebo_ros2_control controller-manager loader plugin tag (the thing
+    that actually spawns and drives this block inside Gazebo) is added to
+    gazebo.xacro in Step 9 - intentionally kept separate so this file stays
+    valid even if simulated hardware is later swapped for a real
+    hardware_interface plugin (only the <hardware><plugin> line would need
+    to change).
+  -->
+
+  <ros2_control name="AckermannSystem" type="system">
+
+    <hardware>
+      <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+    </hardware>
+
+    <!-- Rear axle: one physical DC motor drives both rear wheels, but each
+         joint is exposed independently. Step 10's Ackermann controller
+         node will command both to the same value; keeping them
+         independent here costs nothing and leaves room for future
+         traction-control / RL experiments that want differential rear
+         speed. -->
+    <joint name="rear_left_wheel_joint">
+      <command_interface name="velocity">
+        <param name="min">-20.0</param>
+        <param name="max">20.0</param>
+      </command_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="position"/>
+    </joint>
+
+    <joint name="rear_right_wheel_joint">
+      <command_interface name="velocity">
+        <param name="min">-20.0</param>
+        <param name="max">20.0</param>
+      </command_interface>
+      <state_interface name="velocity"/>
+      <state_interface name="position"/>
+    </joint>
+
+    <!-- Front axle: one physical steering servo, but modeled as two
+         position-commanded joints so true Ackermann geometry (different
+         inner/outer wheel angles) can be applied per-wheel once Step 10's
+         controller implements it, without another URDF change. -->
+    <joint name="front_left_steering_joint">
+      <command_interface name="position">
+        <param name="min">${-steering_limit}</param>
+        <param name="max">${steering_limit}</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <joint name="front_right_steering_joint">
+      <command_interface name="position">
+        <param name="min">${-steering_limit}</param>
+        <param name="max">${steering_limit}</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <!-- Front wheel SPIN joints are passive: no command interface. They
+         roll freely under physics but are still listed here (state-only)
+         so joint_state_broadcaster reports them and they animate correctly
+         in RViz. Omitting them entirely would leave them visually frozen
+         even though Gazebo physics is turning them. -->
+    <joint name="front_left_wheel_joint">
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+    <joint name="front_right_wheel_joint">
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+
+  </ros2_control>
+
+</robot>

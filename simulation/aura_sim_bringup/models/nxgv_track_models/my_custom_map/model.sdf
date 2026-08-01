@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="my_custom_map">
+    <!-- MUST BE TRUE: Prevents the map from falling through the void -->
+    <static>true</static> 
+    
+    <link name="link">
+      <collision name="collision">
+        <pose>-0.2908 0.1507 0.0175 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>0.602 0.499 0.035</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://my_custom_map/meshes/nxgv_map.obj</uri>
+            <scale>0.001 0.001 0.001</scale>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+  </model>
+</sdf>

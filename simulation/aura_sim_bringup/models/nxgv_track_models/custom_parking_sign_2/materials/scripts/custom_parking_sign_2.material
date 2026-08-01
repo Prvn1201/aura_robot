@@ -1,0 +1,17 @@
+material custom_parking_sign_2_mat
+{
+  receive_shadows off
+  technique
+  {
+    pass
+    {
+      lighting off
+      texture_unit
+      {
+        texture parallel.png
+        filtering anistropic
+        max_anisotropy 16
+      }
+    }
+  }
+}

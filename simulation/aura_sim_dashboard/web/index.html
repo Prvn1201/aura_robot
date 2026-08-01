@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>NXGV SCI-FI CONTROL DECK</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Hanya perlukan ROSLIB, NippleJS dibuang sepenuhnya! -->
+  <script src="vendor/roslib.min.js"></script>
+</head>
+<body>
+  <div class="cyber-grid"></div>
+
+  <div class="dashboard-container">
+    <header class="cyber-header">
+      <div class="logo-zone">
+        <span class="glitch-text">NXGV</span>
+        <span class="sub-logo">SYSTEM V2.0 // CYBER DECK</span>
+      </div>
+      <div class="status-zone">
+        <div id="connection-status" class="status-badge disconnected">WEBSOCKET: DISCONNECTED</div>
+        <div id="rec-status" class="status-badge rec-off">REC: OFF</div>
+      </div>
+    </header>
+
+    <main class="cyber-main">
+      
+      <!-- CAM VIEWPORT -->
+      <section class="camera-card">
+        <div class="card-header">
+          <span class="icon">📷</span> LIVE FEED // TOPIC: /camera_sensor/image_raw
+        </div>
+        <div class="viewport-wrapper">
+          <img id="camera-stream" src="" alt="WAITING FOR CAMERA STREAM..." />
+          <div class="hud-overlay-grid">
+            <div class="hud-corner top-left"></div>
+            <div class="hud-corner top-right"></div>
+            <div class="hud-corner bottom-left"></div>
+            <div class="hud-corner bottom-right"></div>
+            <div class="hud-crosshair"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar-card">
+        
+        <!-- TELEMETRY & IMU -->
+        <div class="cyber-panel">
+          <div class="panel-header">📊 TELEMETRY & IMU HUD</div>
+          <div class="telemetry-grid">
+            <div class="metric-box">
+              <span class="label">LINEAR VELOCITY</span>
+              <span class="value" id="val-lin-x">0.00 <small>m/s</small></span>
+            </div>
+            <div class="metric-box">
+              <span class="label">STEERING ANG</span>
+              <span class="value" id="val-ang-z">0.00 <small>rad</small></span>
+            </div>
+            <div class="metric-box highlight">
+              <span class="label">IMU ROLL</span>
+              <span class="value" id="val-imu-roll">0.00°</span>
+            </div>
+            <div class="metric-box highlight">
+              <span class="label">IMU PITCH</span>
+              <span class="value" id="val-imu-pitch">0.00°</span>
+            </div>
+            <div class="metric-box highlight span-2">
+              <span class="label">IMU YAW (HEADING)</span>
+              <span class="value" id="val-imu-yaw">0.00°</span>
+            </div>
+            <div class="metric-box span-2">
+              <span class="label">DATASET FRAMES</span>
+              <span class="value" id="val-frames">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RAKAM BUTTON -->
+        <div class="cyber-panel">
+          <div class="panel-header">💾 FASA 2 DATASET LOG</div>
+          <button id="btn-rec" class="cyber-btn rec-btn">MULA RAKAM (REC)</button>
+        </div>
+
+        <!-- RADAR (LIDAR) -->
+        <div class="cyber-panel radar-panel">
+          <div class="panel-header">📡 LIDAR RADAR SCAN</div>
+          <canvas id="lidar-canvas" width="200" height="200"></canvas>
+        </div>
+
+        <!-- CUSTOM JOYSTICK -->
+        <div class="cyber-panel joystick-panel">
+          <div class="panel-header">🕹️ MANUAL DRIVE JOYSTICK</div>
+          <div id="custom-joystick-base">
+            <div id="custom-joystick-stick"></div>
+          </div>
+        </div>
+
+      </aside>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

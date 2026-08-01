@@ -1,0 +1,15 @@
+material bump_material
+{
+  receive_shadows off
+  technique
+  {
+    pass
+    {
+      lighting off
+      texture_unit
+      {
+        texture bump.png
+      }
+    }
+  }
+}

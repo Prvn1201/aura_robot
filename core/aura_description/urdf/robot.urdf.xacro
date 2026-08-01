@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<robot name="ackermann_car" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- ===================== Physical dimensions (Step 7 decisions) ===================== -->
+  <!-- Mirrored in config/robot_dimensions.yaml for runtime nodes (controller, ml) that
+       need these values at runtime rather than at xacro compile time. -->
+
+  <xacro:property name="wheel_radius"    value="0.0325"/>   <!-- 32.5 mm -->
+  <xacro:property name="wheel_width"     value="0.026"/>    <!-- 26 mm -->
+  <xacro:property name="wheel_mass"      value="0.05"/>     <!-- kg -->
+
+  <xacro:property name="wheelbase"       value="0.220"/>    <!-- 220 mm, front-rear axle distance -->
+  <xacro:property name="track_width"     value="0.150"/>    <!-- 150 mm, left-right axle centerline distance -->
+
+  <xacro:property name="chassis_length"  value="0.300"/>    <!-- 300 mm -->
+  <xacro:property name="chassis_width"   value="0.110"/>    <!-- 110 mm -->
+  <xacro:property name="chassis_height"  value="0.060"/>    <!-- 60 mm -->
+  <xacro:property name="chassis_mass"    value="1.2"/>      <!-- kg -->
+  <xacro:property name="chassis_z_offset" value="0.02"/>    <!-- chassis center height above base_link -->
+
+  <xacro:property name="steering_mass"   value="0.02"/>     <!-- kg -->
+  <xacro:property name="steering_limit"  value="0.785"/>     <!-- rad, ~20 degrees -->
+
+  <xacro:property name="camera_x" value="0.13"/>
+  <xacro:property name="camera_z" value="0.065"/>
+  <xacro:property name="lidar_x"  value="0.0"/>
+  <xacro:property name="lidar_z"  value="0.08"/>
+
+  <!-- ===================== Module includes ===================== -->
+  <xacro:include filename="$(find ackermann_description)/urdf/materials.xacro"/>
+  <xacro:include filename="$(find ackermann_description)/urdf/macros.xacro"/>
+  <xacro:include filename="$(find ackermann_description)/urdf/base.xacro"/>
+  <xacro:include filename="$(find ackermann_description)/urdf/wheel.xacro"/>
+  <xacro:include filename="$(find ackermann_description)/urdf/steering.xacro"/>
+  <xacro:include filename="$(find ackermann_description)/urdf/camera.xacro"/>
+  <xacro:include filename="$(find ackermann_description)/urdf/lidar.xacro"/>
+  <xacro:include filename="$(find ackermann_description)/urdf/ros2_control.xacro"/>
+  <xacro:include filename="$(find ackermann_description)/urdf/gazebo.xacro"/>
+
+  <!-- ===================== Wheel instantiation ===================== -->
+  <!-- Rear wheels: attach directly to base_link, spin only (no steering DOF) -->
+  <xacro:wheel name="rear_left"  parent="base_link" x="${-wheelbase/2}" y="${ track_width/2}" z="0"/>
+  <xacro:wheel name="rear_right" parent="base_link" x="${-wheelbase/2}" y="${-track_width/2}" z="0"/>
+
+  <!-- Front wheels: steering knuckle attaches to base_link, wheel attaches to knuckle -->
+  <xacro:steering_wheel name="front_left"  x="${wheelbase/2}" y="${ track_width/2}" z="0"/>
+  <xacro:steering_wheel name="front_right" x="${wheelbase/2}" y="${-track_width/2}" z="0"/>
+  
+  <!-- ===================== Sensor Instantiation ===================== -->
+  <xacro:camera_sensor x="${camera_x}" y="0" z="${camera_z}"/>
+  <xacro:lidar_sensor x="${lidar_x}" y="0" z="${lidar_z}"/>
+
+</robot>

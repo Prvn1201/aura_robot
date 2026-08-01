@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="traffic_tunnel_3d">
+    <static>true</static>
+    <link name="link">
+      <pose>0 0 0 0 0 3.14159</pose>
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <!-- URI dibetulkan dan nama fail ditukar kepada terowong_nxgv.stl -->
+            <uri>model://traffic_tunnel_3d/meshes/terowong_nxgv.stl</uri>
+            <scale>0.002 0.002 0.002</scale> 
+          </mesh>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>model://traffic_tunnel_3d/meshes/terowong_nxgv.stl</uri>
+            <scale>0.002 0.002 0.002</scale> 
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+            <name>Gazebo/Grey</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

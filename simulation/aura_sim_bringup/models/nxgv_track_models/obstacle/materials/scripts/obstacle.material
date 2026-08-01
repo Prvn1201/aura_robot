@@ -1,0 +1,17 @@
+material obstacle_mat
+{
+  receive_shadows off
+  technique
+  {
+    pass
+    {
+      lighting off
+      texture_unit
+      {
+        texture obstacle.png
+        filtering anistropic
+        max_anisotropy 16
+      }
+    }
+  }
+}

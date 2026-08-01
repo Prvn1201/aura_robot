@@ -1,0 +1,17 @@
+material decending_mat
+{
+  receive_shadows off
+  technique
+  {
+    pass
+    {
+      lighting off
+      texture_unit
+      {
+        texture decending.png
+        filtering anistropic
+        max_anisotropy 16
+      }
+    }
+  }
+}

@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!--
+    Physics properties tied to links (friction, contact stiffness/damping)
+    plus, as of Step 9, the three Gazebo plugins this robot needs:
+      1. gazebo_ros2_control  - loads controller_manager, driven by the
+         <ros2_control> block from Step 8 and ackermann_control's YAML.
+      2. camera sensor plugin - on camera_link, publishes /image_raw and
+         /camera_info, reporting in camera_optical_frame (REP-103).
+      3. lidar sensor plugin  - on laser_link, publishes /scan.
+      
+   Degrees           Radians
+60° (narrow/tele)    1.047
+62.4° (current)            1.089
+80°                    1.396
+90° (common "wide")    1.5708
+120° (very wide)    2.094
+150°+ (fisheye-ish, distortion gets bad)    2.618+
+
+  -->
+
+  <xacro:macro name="wheel_friction" params="link_name">
+    <gazebo reference="${link_name}">
+      <mu1>1.0</mu1>
+      <mu2>1.0</mu2>
+      <kp>1000000.0</kp>
+      <kd>100.0</kd>
+      <material>Gazebo/Black</material>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:wheel_friction link_name="front_left_wheel"/>
+  <xacro:wheel_friction link_name="front_right_wheel"/>
+  <xacro:wheel_friction link_name="rear_left_wheel"/>
+  <xacro:wheel_friction link_name="rear_right_wheel"/>
+
+  <gazebo reference="base_link">
+    <material>Gazebo/DarkGrey</material>
+  </gazebo>
+
+<!-- ===================== gazebo_ros2_control loader ===================== -->
+  <gazebo>
+    <plugin name="gazebo_ros2_control" filename="libgazebo_ros2_control.so">
+      <parameters>$(find ackermann_control)/config/ackermann_controllers.yaml</parameters>
+    </plugin>
+  </gazebo>
+
+<!-- ===================== Camera Sensor ===================== -->
+  <gazebo reference="camera_link">
+    <sensor type="camera" name="camera_sensor">
+      <update_rate>30.0</update_rate>
+      <camera>
+        <horizontal_fov>1.5708</horizontal_fov>
+        <image>
+          <width>640</width>
+          <height>480</height>
+          <format>R8G8B8</format>
+        </image>
+        <clip>
+          <near>0.02</near>
+          <far>300.0</far>
+        </clip>
+      </camera>
+      <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+        <frame_name>camera_optical_frame</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- ===================== LiDAR Sensor ===================== -->
+  <gazebo reference="laser_link">
+    <sensor type="ray" name="lidar_sensor">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize> <!-- Set to false later to save CPU -->
+      <update_rate>10.0</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>360</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.14159</min_angle>
+            <max_angle>3.14159</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.12</min>
+          <max>10.0</max>
+          <resolution>0.015</resolution>
+        </range>
+        <!-- AI/RL Preparation: Gaussian Noise -->
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="laser_controller" filename="libgazebo_ros_ray_sensor.so">
+        <ros>
+          <remapping>~/out:=scan</remapping>
+        </ros>
+        <output_type>sensor_msgs/LaserScan</output_type>
+        <frame_name>laser_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+</robot>

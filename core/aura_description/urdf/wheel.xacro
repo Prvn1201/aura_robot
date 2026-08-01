@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="wheel" params="name parent x y z">
+    <link name="${name}_wheel">
+      <visual>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+        </geometry>
+        <material name="wheel_black"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="${pi/2} 0 0"/>
+        <geometry>
+          <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+        </geometry>
+      </collision>
+      <xacro:cylinder_inertia mass="${wheel_mass}" radius="${wheel_radius}" length="${wheel_width}"/>
+    </link>
+
+    <!-- Jenis continuous tiada lower/upper limit -->
+    <joint name="${name}_wheel_joint" type="continuous">
+      <parent link="${parent}"/>
+      <child link="${name}_wheel"/>
+      <origin xyz="${x} ${y} ${z}" rpy="0 0 0"/>
+      <!-- Tukar kepada -1 supaya +velocity bergerak ke depan -->
+      <axis xyz="0 1 0"/> 
+      <!-- Hanya perlukan effort dan velocity limit -->
+      <limit effort="100.0" velocity="50.0"/>
+      <!-- Kurangkan damping dan friction kepada 0.001 untuk elak lambat & bengkok -->
+      <dynamics damping="0.001" friction="0.001"/>
+    </joint>
+  </xacro:macro>
+
+</robot>

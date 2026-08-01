@@ -1,0 +1,17 @@
+material roundabout_mat
+{
+  receive_shadows off
+  technique
+  {
+    pass
+    {
+      lighting off
+      texture_unit
+      {
+        texture roundabout.png
+        filtering anistropic
+        max_anisotropy 16
+      }
+    }
+  }
+}

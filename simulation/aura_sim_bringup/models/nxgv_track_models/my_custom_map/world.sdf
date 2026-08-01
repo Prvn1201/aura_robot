@@ -1,0 +1,91 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="map_world">
+   <include>
+      <uri>model://custom_parking_sign</uri>
+      <name>my_parking_sign</name>
+      <pose>-3.139620 2.315670 0 0 0 1.57</pose>
+   </include>
+   <include>
+      <uri>model://custom_parking_sign_2</uri>
+      <name>my_parking_sign_2</name>
+      <pose>-4.039560 1.352190 0 0 0 1.508670</pose>
+    </include>
+   <include>
+      <uri>model://roundabout</uri>
+      <name>Roundabout</name>
+      <pose>-2.959460 0.022182 0 0 0 0</pose>
+   <include>
+   <include>
+      <uri>model://decending</uri>
+      <name>Decend</name>
+      <pose>-1.696850 4.035880 0 0 0 0</pose>
+   <include>
+
+    <!-- Physics & Systems -->
+    <plugin filename="libignition-gazebo-physics-system.so" name="ignition::gazebo::systems::Physics"/>
+    <plugin filename="libignition-gazebo-user-commands-system.so" name="ignition::gazebo::systems::UserCommands"/>
+    <plugin filename="libignition-gazebo-scene-broadcaster-system.so" name="ignition::gazebo::systems::SceneBroadcaster"/>
+
+    <!-- Light Source -->
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+    <!-- Ground Plane -->
+    <model name="ground_plane">
+      <static>true</static>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <ambient>0.8 0.8 0.8 1</ambient>
+            <diffuse>0.8 0.8 0.8 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Your Custom Fusion Map -->
+    <model name="my_custom_map">
+      <static>true</static>
+      <pose>0 0 0 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <mesh>
+              <uri>model://my_custom_map/meshes/nxgv map.obj</uri>
+              <scale>0.001 0.001 0.001</scale>
+            </mesh>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <mesh>
+              <uri>model://my_custom_map/meshes/nxgv map.obj</uri>
+              <scale>0.01 0.01 0.01</scale>
+            </mesh>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+
+  </world>
+</sdf>

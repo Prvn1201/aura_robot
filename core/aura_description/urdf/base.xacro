@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- base_footprint: ground-projected reference frame (z=0), REP-105 convention -->
+  <link name="base_footprint"/>
+
+  <joint name="base_footprint_to_base_link" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <!-- base_link sits at wheel-axle height above the ground -->
+    <origin xyz="0 0 ${wheel_radius}" rpy="0 0 0"/>
+  </joint>
+
+  <!-- base_link: robot origin, centered between front and rear axles -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 ${chassis_z_offset}" rpy="0 0 0"/>
+      <geometry>
+        <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+      </geometry>
+      <material name="chassis_gray"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 ${chassis_z_offset}" rpy="0 0 0"/>
+      <geometry>
+        <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+      </geometry>
+    </collision>
+    <xacro:box_inertia mass="${chassis_mass}" x="${chassis_length}" y="${chassis_width}" z="${chassis_height}"/>
+  </link>
+
+</robot>
