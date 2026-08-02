@@ -15,8 +15,8 @@ setup(
     zip_safe=True,
     maintainer='pravin_workstation',
     maintainer_email='pravin_workstation@todo.todo',
-    description='TODO: Package description',
-    license='TODO: License declaration',
+    description='AURA LiDAR package for tunnel navigation',
+    license='MIT',
     extras_require={
         'test': [
             'pytest',
@@ -24,6 +24,7 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'tunnel_follower = aura_lidar.tunnel_wall_follower:main',
         ],
     },
 )

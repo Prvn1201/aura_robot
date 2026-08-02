@@ -1,0 +1,29 @@
+line_follower_camera:
+  ros__parameters:
+    use_sim_time: true
+    invert_binary: false        # false = detect white lines on dark pavement in Gazebo
+    white_threshold: 120
+    show_debug: true
+    kalman_enabled: true
+
+traffic_light_detector:
+  ros__parameters:
+    use_sim_time: true
+    show_debug: true
+    required_confidence: 3
+
+tunnel_wall_follower:
+  ros__parameters:
+    use_sim_time: true
+    lidar_angle_offset: 0.0     # 0.0 because LiDAR faces forward in Gazebo URDF
+    forward_speed: 0.2
+    max_wall_dist: 1.2
+    kp: 3.0
+    kd: 0.3
+    
+line_follower_controller:
+  ros__parameters:
+    use_sim_time: true
+    kp: 1.2
+    kd: 0.3
+    base_speed: 0.4

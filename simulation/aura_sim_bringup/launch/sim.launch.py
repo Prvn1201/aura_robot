@@ -14,11 +14,12 @@ def generate_launch_description():
     pkg_aura_description = get_package_share_directory('aura_description')
     pkg_aura_sim_bringup = get_package_share_directory('aura_sim_bringup')
     pkg_aura_gazebo_plugins = get_package_share_directory('aura_gazebo_plugins')
+    pkg_aura_control = get_package_share_directory('aura_control')
 
     # Gazebo core paths
     gazebo_core_resource_path = '/usr/share/gazebo-11'
 
-    # Models are now in aura_sim_bringup
+    # Models
     models_dir = os.path.join(pkg_aura_sim_bringup, 'models')
     nxgv_track_models_dir = os.path.join(models_dir, 'nxgv_track_models')
 
@@ -51,16 +52,16 @@ def generate_launch_description():
         ]
     )
 
-    # 1. URDF is in aura_description
+    # 1. URDF Processing
     xacro_file = os.path.join(pkg_aura_description, 'urdf', 'robot.urdf.xacro')
     doc = xacro.process_file(xacro_file)
     robot_desc = doc.toxml()
     robot_desc_clean = re.sub(r'<!--.*?-->', '', robot_desc, flags=re.DOTALL)
 
-    # 2. World file is in aura_sim_bringup
+    # 2. World File
     world_file = os.path.join(pkg_aura_sim_bringup, 'worlds', 'litar_sim_nxgv.world')
 
-    # 3. Launch Gazebo 
+    # 3. Gazebo Launch
     gzserver_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(
             get_package_share_directory('gazebo_ros'), 'launch', 'gzserver.launch.py')]),
@@ -102,7 +103,7 @@ def generate_launch_description():
         output='screen'
     )
 
-    # 6. Spawners Controller
+    # 6. ros2_control Spawners
     joint_state_broadcaster_spawner = Node(
         package="controller_manager",
         executable="spawner",
@@ -121,14 +122,26 @@ def generate_launch_description():
         arguments=["rear_wheel_velocity_controller", "--controller-manager", "/controller_manager"],
     )
 
-    # 7. Node C++ Ackermann (Moved to aura_control)
+    # 7. Ackermann Controller Node (Reads /cmd_vel)
     ackermann_controller = Node(
         package='aura_control',
         executable='ackermann_controller_node',
-        output='screen'
+        output='screen',
+        parameters=[{'use_sim_time': True}]
     )
 
-    # 8. RViz2 (Config is in aura_description)
+    # 8. twist_mux Node
+    twist_mux_config = os.path.join(pkg_aura_control, 'config', 'twist_mux.yaml')
+    twist_mux_node = Node(
+        package='twist_mux',
+        executable='twist_mux',
+        name='twist_mux',
+        output='screen',
+        parameters=[twist_mux_config, {'use_sim_time': True}],
+        remappings=[('/cmd_vel_out', '/cmd_vel')]
+    )
+
+    # 9. RViz2
     rviz_config_file = os.path.join(pkg_aura_description, 'rviz', 'robot.rviz')
     rviz_node = Node(
         package='rviz2',
@@ -166,7 +179,10 @@ def generate_launch_description():
         RegisterEventHandler(
             event_handler=OnProcessExit(
                 target_action=rear_velocity_spawner,
-                on_exit=[ackermann_controller],
+                on_exit=[
+                    ackermann_controller,
+                    twist_mux_node
+                ],
             )
         ),
     ])

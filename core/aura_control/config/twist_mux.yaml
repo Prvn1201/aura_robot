@@ -1,0 +1,15 @@
+twist_mux:
+  ros__parameters:
+    topics:
+      teleop:
+        topic: /cmd_vel_teleop
+        timeout: 0.5
+        priority: 100       # High priority - Overrides autonomy
+      
+      autonomy:
+        topic: /cmd_vel_auto
+        timeout: 0.5
+        priority: 10        # Lower priority - Active when teleop is silent
+
+    # Target output topic (consumed by ackermann_controller_node)
+    output_topic: /cmd_vel

@@ -15,8 +15,8 @@ setup(
     zip_safe=True,
     maintainer='pravin_workstation',
     maintainer_email='pravin_workstation@todo.todo',
-    description='TODO: Package description',
-    license='TODO: License declaration',
+    description='AURA Vision package for perception nodes',
+    license='MIT',
     extras_require={
         'test': [
             'pytest',
@@ -24,6 +24,8 @@ setup(
     },
     entry_points={
         'console_scripts': [
+            'line_follower = aura_vision.line_follower_camera:main',
+            'traffic_light_detector = aura_vision.traffic_light_detector:main',
         ],
     },
 )

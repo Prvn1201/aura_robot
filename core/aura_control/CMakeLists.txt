@@ -12,6 +12,7 @@ find_package(std_msgs REQUIRED)
 
 include_directories(include)
 
+# --- C++ EXECUTABLES ---
 add_executable(ackermann_controller_node
   src/ackermann_controller_node.cpp
   src/main.cpp
@@ -27,6 +28,14 @@ install(TARGETS
   DESTINATION lib/${PROJECT_NAME}
 )
 
+# --- PYTHON EXECUTABLES ---
+install(PROGRAMS
+  scripts/line_follower_controller.py
+  DESTINATION lib/${PROJECT_NAME}
+  RENAME line_follower_controller
+)
+
+# --- CONFIG & LAUNCH DIRECTORIES ---
 install(DIRECTORY
   config
   launch
