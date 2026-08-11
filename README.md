@@ -220,6 +220,7 @@ Default save location:
 - **RONALD LEE DENG**
 - **THAVATCHAI DENGPRADIT A/L EDAF**
 - **ONG HANG LE**
-
+- **LAW JING KANG**
+- **GABRIEL KOH SUN YWEN**
 
 ---
