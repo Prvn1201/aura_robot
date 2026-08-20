@@ -28,11 +28,13 @@ install(TARGETS
   DESTINATION lib/${PROJECT_NAME}
 )
 
-# --- PYTHON EXECUTABLES ---
+# --- PYTHON EXECUTABLES & MODULES ---
 install(PROGRAMS
   scripts/line_follower_controller.py
+  scripts/servo_controller.py
+  scripts/topics.py
+  scripts/Rosmaster_Lib.py
   DESTINATION lib/${PROJECT_NAME}
-  RENAME line_follower_controller
 )
 
 # --- CONFIG & LAUNCH DIRECTORIES ---
